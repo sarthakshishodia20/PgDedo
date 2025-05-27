@@ -1,0 +1,105 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg" style="background: rgba(26, 26, 26, 0.95); border: none; border-radius: 20px;">
+                <div class="card-header text-center" style="background: linear-gradient(135deg, #007bff, #0056b3); border-radius: 20px 20px 0 0;">
+                    <h3 class="mb-0 text-white">
+                        <i class="fas fa-user-plus me-2"></i>Join PG Dedo
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form action="/register" method="POST" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label text-white">
+                                <i class="fas fa-user me-2"></i>Full Name
+                            </label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" required 
+                                   minlength="2" maxlength="50" placeholder="Enter your full name">
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide a valid name (2-50 characters).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label text-white">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email" required 
+                                   placeholder="Enter your email address">
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide a valid email address.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label text-white">
+                                <i class="fas fa-phone me-2"></i>Phone Number
+                            </label>
+                            <input type="tel" class="form-control" id="phone" name="phone" 
+                                   pattern="[6-9][0-9]{9}" placeholder="Enter your 10-digit mobile number">
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please provide a valid Indian mobile number.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="userType" class="form-label text-white">
+                                <i class="fas fa-user-tag me-2"></i>I am a
+                            </label>
+                            <select class="form-control" id="userType" name="userType" required>
+                                <option value="">Select your role</option>
+                                <option value="owner">PG Owner (I want to list my PG)</option>
+                                <option value="student">Student (I'm looking for a PG)</option>
+                            </select>
+                            <div class="valid-feedback">Great choice!</div>
+                            <div class="invalid-feedback">Please select your role.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label text-white">
+                                <i class="fas fa-lock me-2"></i>Password
+                            </label>
+                            <input type="password" class="form-control" id="password" name="password" required 
+                                   minlength="6" placeholder="Create a strong password">
+                            <div class="valid-feedback">Strong password!</div>
+                            <div class="invalid-feedback">Password must be at least 6 characters long.</div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.2);">
+                    
+                    <div class="text-center">
+                        <p class="text-white mb-0">Already have an account?</p>
+                        <a href="/login" class="btn btn-outline-light mt-2">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form validation
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>

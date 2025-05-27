@@ -192,6 +192,7 @@
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const sidebarClose = document.getElementById('sidebarClose');
         const main = document.querySelector('main');
+        const footer = document.querySelector('footer');
         let sidebarOpen = true; // Default state is open
 
         function toggleSidebar() {
@@ -205,6 +206,7 @@
         function openSidebar() {
             sidebar.classList.remove('hidden');
             main.classList.remove('sidebar-hidden');
+            if (footer) footer.classList.remove('sidebar-hidden');
             sidebarToggle.innerHTML = '<i class="fas fa-times"></i>';
             sidebarOpen = true;
         }
@@ -212,6 +214,7 @@
         function closeSidebar() {
             sidebar.classList.add('hidden');
             main.classList.add('sidebar-hidden');
+            if (footer) footer.classList.add('sidebar-hidden');
             sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
             sidebarOpen = false;
         }

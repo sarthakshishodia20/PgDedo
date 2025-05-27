@@ -256,6 +256,45 @@ body::after {
     color: #007bff;
 }
 
+/* Sidebar User Info */
+.sidebar-user-info {
+    padding: 1rem;
+    margin: 1rem 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-avatar {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.user-avatar i {
+    font-size: 2.5rem;
+    color: #007bff;
+}
+
+.user-details {
+    text-align: center;
+}
+
+.user-name {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.user-type {
+    margin-top: 0.3rem;
+}
+
+.user-type .badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+}
+
 /* Main Content */
 main {
     flex: 1;
@@ -674,6 +713,61 @@ hr {
     color: #ffffff;
     font-weight: 700;
     margin-bottom: 0;
+}
+
+/* Search Container Styles */
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-form .input-group {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.search-input {
+    border: none !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #333 !important;
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem !important;
+}
+
+.search-input:focus {
+    background: rgba(255, 255, 255, 1) !important;
+    color: #333 !important;
+    box-shadow: none !important;
+}
+
+.search-input::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.search-btn {
+    border: none !important;
+    padding: 1rem 1.5rem !important;
+    font-weight: 600;
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+}
+
+.search-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #004085) !important;
+    transform: none;
+}
+
+.search-results-info {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(13, 110, 253, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(13, 110, 253, 0.2);
+}
+
+.search-results-info p {
+    color: #ffffff !important;
+    font-size: 1rem;
 }
 
 /* Listings Container */

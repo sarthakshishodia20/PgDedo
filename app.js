@@ -1,13 +1,23 @@
 const express = require('express');
 const app = express();
 const Listing = require("./models/listing.js");
+const Review = require("./models/review.js");
+const User = require("./models/user.js");
 const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
+const session = require('express-session');
+const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 const wrapAsync = require('./utils/wrapAsync');
 const ExpressError = require('./utils/ExpressError');
-const { validateListing } = require('./middleware');
+const { validateListing, isLoggedIn, isAuthor, isOwner } = require('./middleware');
+
+// Import routes
+const reviewRoutes = require('./routes/reviews');
+const authRoutes = require('./routes/auth');
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/findmypg";
 
@@ -21,6 +31,40 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
+// Session configuration
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 1 week
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+};
+
+app.use(session(sessionConfig));
+app.use(flash());
+
+// Passport configuration
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Flash middleware
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    res.locals.currentUser = req.user;
+    next();
+});
+
+// Use routes
+app.use('/listings/:id/reviews', reviewRoutes);
+app.use('/', authRoutes);
 
 main().then(() => {
     console.log("connected to database");
@@ -47,56 +91,93 @@ app.get('/', (req, res) => {
     res.send("Server is running");
 });
 
-// Index route
+// Index route with search functionality
 app.get("/listings", wrapAsync(async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index", { allListings });
+    const { search } = req.query;
+    let allListings;
+
+    if (search) {
+        // Search by title, location, or landmark
+        allListings = await Listing.find({
+            $or: [
+                { title: { $regex: search, $options: 'i' } },
+                { location: { $regex: search, $options: 'i' } },
+                { landmark: { $regex: search, $options: 'i' } }
+            ]
+        }).populate('author');
+    } else {
+        allListings = await Listing.find({}).populate('author');
+    }
+
+    res.render("listings/index", { allListings, search });
 }));
 
-// New route
-app.get("/listings/new", (req, res) => {
+// New route - Only owners can create listings
+app.get("/listings/new", isLoggedIn, isOwner, (req, res) => {
     res.render("listings/new");
 });
 
-// Create route
-app.post("/listings", validateListing, wrapAsync(async (req, res) => {
-    const newListing = new Listing(req.body);
+// Create route - Only owners can create listings
+app.post("/listings", isLoggedIn, isOwner, validateListing, wrapAsync(async (req, res) => {
+    const newListing = new Listing(req.body.listing);
+    newListing.author = req.user._id;
     await newListing.save();
+    req.flash('success', 'New PG listing created successfully!');
     res.redirect("/listings");
 }));
 
-// Edit route
-app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
+// Edit route - Only author can edit
+app.get("/listings/:id/edit", isLoggedIn, isAuthor, wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
     if (!listing) {
-        throw new ExpressError("Listing not found", 404);
+        req.flash('error', 'Listing not found!');
+        return res.redirect('/listings');
     }
     res.render("listings/edit", { listing });
 }));
 
-// Update route
-app.put("/listings/:id", validateListing, wrapAsync(async (req, res) => {
+// Update route - Only author can update
+app.put("/listings/:id", isLoggedIn, isAuthor, validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body });
+    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    if (!updatedListing) {
+        req.flash('error', 'Listing not found!');
+        return res.redirect('/listings');
+    }
+    req.flash('success', 'PG listing updated successfully!');
     res.redirect(`/listings/${id}`);
 }));
 
-// Delete route
-app.delete("/listings/:id", wrapAsync(async (req, res) => {
+// Delete route - Only author can delete
+app.delete("/listings/:id", isLoggedIn, isAuthor, wrapAsync(async (req, res) => {
     let { id } = req.params;
-    await Listing.findByIdAndDelete(id);
+    const deletedListing = await Listing.findByIdAndDelete(id);
+    if (!deletedListing) {
+        req.flash('error', 'Listing not found!');
+        return res.redirect('/listings');
+    }
+    // Also delete all reviews for this listing
+    await Review.deleteMany({ listing: id });
+    req.flash('success', 'PG listing deleted successfully!');
     res.redirect("/listings");
 }));
 
 // Show route
 app.get("/listings/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate('author');
     if (!listing) {
         throw new ExpressError("Listing not found", 404);
     }
-    res.render("listings/show", { listing });
+
+    // Get reviews for this listing
+    const reviews = await Review.find({ listing: id }).sort({ createdAt: -1 });
+
+    // Get average rating
+    const ratingData = await Review.getAverageRating(id);
+
+    res.render("listings/show", { listing, reviews, ratingData });
 }));
 
 // 404 Error Handler

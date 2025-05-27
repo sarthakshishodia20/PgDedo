@@ -23,30 +23,56 @@
                     <span class="nav-text">All PGs</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/listings/new">
-                    <i class="fas fa-plus"></i>
-                    <span class="nav-text">Add New PG</span>
-                </a>
-            </li>
+            <% if (currentUser && currentUser.userType === 'owner') { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/listings/new">
+                        <i class="fas fa-plus"></i>
+                        <span class="nav-text">Add New PG</span>
+                    </a>
+                </li>
+            <% } %>
         </ul>
 
         <div class="sidebar-divider"></div>
 
-        <ul class="sidebar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-user"></i>
-                    <span class="nav-text">Login</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-user-plus"></i>
-                    <span class="nav-text">Sign Up</span>
-                </a>
-            </li>
-        </ul>
+        <% if (currentUser) { %>
+            <div class="sidebar-user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-details">
+                    <div class="user-name"><%= currentUser.fullName %></div>
+                    <div class="user-type">
+                        <span class="badge bg-<%= currentUser.userType === 'owner' ? 'success' : 'info' %>">
+                            <%= currentUser.userType === 'owner' ? 'Owner' : 'Student' %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="nav-text">Logout</span>
+                    </a>
+                </li>
+            </ul>
+        <% } else { %>
+            <ul class="sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span class="nav-text">Login</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">
+                        <i class="fas fa-user-plus"></i>
+                        <span class="nav-text">Register</span>
+                    </a>
+                </li>
+            </ul>
+        <% } %>
     </div>
 
     <div class="sidebar-footer">
