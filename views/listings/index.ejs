@@ -32,6 +32,42 @@
         </div>
     </div>
 
+    <!-- PG Image Slider -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="pg-slider-container">
+                <div class="pg-slider">
+                    <div class="slider-wrapper" id="sliderWrapper">
+                        <div class="slide active">
+                            <img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb2fe1cb4-a00b-4eb6-9c50-eac6565d7e3f_1456x816.png" alt="Modern PG Accommodation" draggable="false">
+                        </div>
+                        <div class="slide">
+                            <img src="https://5.imimg.com/data5/SELLER/Default/2021/12/TJ/CE/PP/51665645/paying-guest-houses-interior-desing.jpg" alt="Affordable PG Options" draggable="false">
+                        </div>
+                        <div class="slide">
+                            <img src="https://img.cofynd.com/images/original/b8bc23cebcc5b5451a903e05d0f820ad5ba05b45.jpg" alt="Premium PG Facilities" draggable="false">
+                        </div>
+                        <div class="slide">
+                            <img src="https://img.freepik.com/free-vector/empty-apartment-interior-illustration_33099-2021.jpg?semt=ais_hybrid&w=740" alt="Student Community" draggable="false">
+                        </div>
+                        <div class="slide">
+                            <img src="https://www.srmasc.ac.in/wp-content/uploads/2022/02/Hostel-1.jpg" alt="Convenient Location" draggable="false">
+                        </div>
+                    </div>
+
+                    <!-- Slide Indicators -->
+                    <div class="slider-indicators">
+                        <span class="indicator active" onclick="currentSlide(1)"></span>
+                        <span class="indicator" onclick="currentSlide(2)"></span>
+                        <span class="indicator" onclick="currentSlide(3)"></span>
+                        <span class="indicator" onclick="currentSlide(4)"></span>
+                        <span class="indicator" onclick="currentSlide(5)"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row listing-row">
         <% if (allListings.length === 0) { %>
             <div class="col-12 text-center">
@@ -90,8 +126,216 @@
     </main>
 
     <%- include('../includes/footer') %>
-
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Slider JavaScript -->
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+        let autoSlideInterval;
+        let isTransitioning = false;
+
+        // Touch/Mouse drag variables
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+        let dragThreshold = 50;
+
+        // Function to show specific slide with slide transition
+        function showSlide(index, direction = 'next') {
+            if (isTransitioning) return;
+
+            isTransitioning = true;
+            const currentSlide = slides[currentSlideIndex];
+            const nextSlide = slides[index];
+
+            // Remove active class from all slides and indicators
+            slides.forEach(slide => slide.classList.remove('active', 'slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            // Add transition classes based on direction
+            if (direction === 'next') {
+                currentSlide.classList.add('slide-out-left');
+                nextSlide.classList.add('slide-in-right');
+            } else {
+                currentSlide.classList.add('slide-out-right');
+                nextSlide.classList.add('slide-in-left');
+            }
+
+            // Set new active slide and indicator
+            setTimeout(() => {
+                slides.forEach(slide => slide.classList.remove('active', 'slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right'));
+                nextSlide.classList.add('active');
+                indicators[index].classList.add('active');
+                currentSlideIndex = index;
+                isTransitioning = false;
+            }, 500);
+        }
+
+        // Function to change slide (next/previous)
+        function changeSlide(direction) {
+            const newIndex = direction > 0 ?
+                (currentSlideIndex + 1) % totalSlides :
+                (currentSlideIndex - 1 + totalSlides) % totalSlides;
+
+            showSlide(newIndex, direction > 0 ? 'next' : 'prev');
+            resetAutoSlide();
+        }
+
+        // Function to go to specific slide
+        function currentSlide(index) {
+            const targetIndex = index - 1;
+            const direction = targetIndex > currentSlideIndex ? 'next' : 'prev';
+            showSlide(targetIndex, direction);
+            resetAutoSlide();
+        }
+
+        // Auto slide function
+        function autoSlide() {
+            changeSlide(1);
+        }
+
+        // Reset auto slide timer
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(autoSlide, 4000);
+        }
+
+        // Touch/Mouse event handlers
+        function handleStart(e) {
+            isDragging = true;
+            startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+            currentX = startX;
+        }
+
+        function handleMove(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+        }
+
+        function handleEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+
+            const deltaX = currentX - startX;
+
+            if (Math.abs(deltaX) > dragThreshold) {
+                if (deltaX > 0) {
+                    changeSlide(-1); // Swipe right - previous slide
+                } else {
+                    changeSlide(1);  // Swipe left - next slide
+                }
+            }
+        }
+
+        // Initialize slider
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.querySelector('.pg-slider');
+            const sliderWrapper = document.getElementById('sliderWrapper');
+
+            // Set initial state
+            slides[0].classList.add('active');
+            indicators[0].classList.add('active');
+
+            // Auto slide
+            autoSlideInterval = setInterval(autoSlide, 4000);
+
+            // Pause auto slide on hover
+            slider.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+            slider.addEventListener('mouseleave', () => resetAutoSlide());
+
+            // Mouse events
+            sliderWrapper.addEventListener('mousedown', handleStart);
+            sliderWrapper.addEventListener('mousemove', handleMove);
+            sliderWrapper.addEventListener('mouseup', handleEnd);
+            sliderWrapper.addEventListener('mouseleave', handleEnd);
+
+            // Touch events
+            sliderWrapper.addEventListener('touchstart', handleStart, { passive: false });
+            sliderWrapper.addEventListener('touchmove', handleMove, { passive: false });
+            sliderWrapper.addEventListener('touchend', handleEnd);
+
+            // Prevent context menu on long press
+            sliderWrapper.addEventListener('contextmenu', e => e.preventDefault());
+        });
+
+        // Sidebar functionality
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarClose = document.getElementById('sidebarClose');
+        const main = document.querySelector('main');
+        const footer = document.querySelector('footer');
+        let sidebarOpen = true; // Default state is open
+
+        function toggleSidebar() {
+            if (sidebarOpen) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+
+        function openSidebar() {
+            sidebar.classList.remove('hidden');
+            main.classList.remove('sidebar-hidden');
+            if (footer) footer.classList.remove('sidebar-hidden');
+            sidebarToggle.innerHTML = '<i class="fas fa-times"></i>';
+            sidebarOpen = true;
+        }
+
+        function closeSidebar() {
+            sidebar.classList.add('hidden');
+            main.classList.add('sidebar-hidden');
+            if (footer) footer.classList.add('sidebar-hidden');
+            sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            sidebarOpen = false;
+        }
+
+        // Initialize sidebar state based on screen size
+        function initializeSidebar() {
+            if (window.innerWidth <= 768) {
+                // Mobile: start closed
+                sidebarOpen = false;
+                sidebar.classList.add('hidden');
+                main.classList.add('sidebar-hidden');
+                if (footer) footer.classList.add('sidebar-hidden');
+                sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            } else {
+                // Desktop: start open
+                sidebarOpen = true;
+                sidebar.classList.remove('hidden');
+                main.classList.remove('sidebar-hidden');
+                if (footer) footer.classList.remove('sidebar-hidden');
+                sidebarToggle.innerHTML = '<i class="fas fa-times"></i>';
+            }
+        }
+
+        // Initialize on load
+        initializeSidebar();
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768 && sidebarOpen) {
+                closeSidebar();
+            } else if (window.innerWidth > 768 && !sidebarOpen) {
+                openSidebar();
+            }
+        });
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // Close sidebar on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && sidebarOpen) {
+                closeSidebar();
+            }
+        });
+    </script>
 </body>
 </html>
