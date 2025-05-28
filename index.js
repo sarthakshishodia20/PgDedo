@@ -15,14 +15,14 @@ const MongoStore=require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const wrapAsync = require('./utils/wrapAsync');
-const ExpressError = require('./utils/ExpressError');
-const { validateListing, isLoggedIn, isAuthor, isOwner, isReviewAuthor } = require('./middleware');
-const { upload } = require('./cloudinary');
+const wrapAsync = require('./utils/wrapAsync.js');
+const ExpressError = require('./utils/ExpressError.js');
+const { validateListing, isLoggedIn, isAuthor, isOwner, isReviewAuthor } = require('./middleware.js');
+const { upload } = require('./cloudinary/index.js');
 
 // saare routes ko import kar rahe hain yahan
-const reviewRoutes = require('./routes/reviews');
-const authRoutes = require('./routes/auth');
+const reviewRoutes = require('./routes/reviews.js');
+const authRoutes = require('./routes/auth.js');
 
 // environment variables se configuration le rahe hain
 const MONGO_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/findmypg";
