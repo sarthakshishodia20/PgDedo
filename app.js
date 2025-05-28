@@ -11,6 +11,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
+const MongoStore=require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
@@ -39,11 +40,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-// session ki configuration kar rahe hain - environment variables se
+// MongoStore create kar rahe hain sessions ko database mein store karne ke liye
+const store = MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto: {
+        secret: process.env.SESSION_SECRET || 'thisshouldbeabettersecret!',
+    },
+    touchAfter: parseInt(process.env.SESSION_TOUCH_AFTER) || 24 * 3600, // 24 hours tk store rahegi information user ki
+    collection: process.env.SESSION_COLLECTION_NAME || 'sessions' // sessions collection ka naam
+});
+
+// store events handle kar rahe hain
+store.on('error', function(error) {
+    console.log('Session store error:', error);
+});
+
+// session ki configuration kar rahe hain - environment variables aur MongoStore se
 const sessionConfig = {
+    store: store, // MongoStore use kar rahe hain
     secret: process.env.SESSION_SECRET || 'thisshouldbeabettersecret!',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false, // false kar rahe hain better security ke liye
     cookie: {
         httpOnly: process.env.SESSION_COOKIE_HTTP_ONLY === 'true' || true,
         secure: process.env.SESSION_COOKIE_SECURE === 'true' || false,
@@ -51,6 +68,7 @@ const sessionConfig = {
         maxAge: parseInt(process.env.SESSION_MAX_AGE) || 604800000
     }
 };
+
 
 app.use(session(sessionConfig));
 app.use(flash());
