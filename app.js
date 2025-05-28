@@ -1,3 +1,6 @@
+// environment variables load karne ke liye
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const Listing = require("./models/listing.js");
@@ -14,12 +17,15 @@ const LocalStrategy = require('passport-local');
 const wrapAsync = require('./utils/wrapAsync');
 const ExpressError = require('./utils/ExpressError');
 const { validateListing, isLoggedIn, isAuthor, isOwner, isReviewAuthor } = require('./middleware');
+const { upload } = require('./cloudinary');
 
 // saare routes ko import kar rahe hain yahan
 const reviewRoutes = require('./routes/reviews');
 const authRoutes = require('./routes/auth');
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/findmypg";
+// environment variables se configuration le rahe hain
+const MONGO_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/findmypg";
+const PORT = process.env.PORT || 8080;
 
 // database connection ka function banaya hai
 async function main() {
@@ -33,15 +39,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-// session ki configuration kar rahe hain
+// session ki configuration kar rahe hain - environment variables se
 const sessionConfig = {
-    secret: 'thisshouldbeabettersecret!',
+    secret: process.env.SESSION_SECRET || 'thisshouldbeabettersecret!',
     resave: false,
     saveUninitialized: true,
     cookie: {
-        httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // ek hafta
-        maxAge: 1000 * 60 * 60 * 24 * 7
+        httpOnly: process.env.SESSION_COOKIE_HTTP_ONLY === 'true' || true,
+        secure: process.env.SESSION_COOKIE_SECURE === 'true' || false,
+        expires: Date.now() + (parseInt(process.env.SESSION_MAX_AGE) || 604800000), // default ek hafta
+        maxAge: parseInt(process.env.SESSION_MAX_AGE) || 604800000
     }
 };
 
@@ -119,8 +126,17 @@ app.get("/listings/new", isLoggedIn, isOwner, (req, res) => {
 });
 
 // naya listing create karne ka route - sirf owners kar sakte hain
-app.post("/listings", isLoggedIn, isOwner, validateListing, wrapAsync(async (req, res) => {
+app.post("/listings", isLoggedIn, isOwner, upload.single('listing[image]'), validateListing, wrapAsync(async (req, res) => {
     const newListing = new Listing(req.body.listing);
+
+    // agar image upload hui hai to cloudinary URL use karo
+    if (req.file) {
+        newListing.image = {
+            url: req.file.path,
+            filename: req.file.filename
+        };
+    }
+
     newListing.author = req.user._id;
     await newListing.save();
     req.flash('success', 'New PG listing created successfully!');
@@ -139,13 +155,27 @@ app.get("/listings/:id/edit", isLoggedIn, isAuthor, wrapAsync(async (req, res) =
 }));
 
 // listing update karne ka route - sirf author kar sakta hai
-app.put("/listings/:id", isLoggedIn, isAuthor, validateListing, wrapAsync(async (req, res) => {
+app.put("/listings/:id", isLoggedIn, isAuthor, upload.single('listing[image]'), validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const updatedListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    if (!updatedListing) {
+    const listing = await Listing.findById(id);
+
+    if (!listing) {
         req.flash('error', 'Listing not found!');
         return res.redirect('/listings');
     }
+
+    // listing update karo
+    Object.assign(listing, req.body.listing);
+
+    // agar naya image upload hua hai to cloudinary URL use karo
+    if (req.file) {
+        listing.image = {
+            url: req.file.path,
+            filename: req.file.filename
+        };
+    }
+
+    await listing.save();
     req.flash('success', 'PG listing updated successfully!');
     res.redirect(`/listings/${id}`);
 }));
@@ -192,6 +222,8 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error", { message });
 });
 
-app.listen(8080, () => {
-    console.log("Server is listening to port 8080");
+app.listen(PORT, () => {
+    console.log(`Server is listening to port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`App Name: ${process.env.APP_NAME || 'PG Dedo'}`);
 });

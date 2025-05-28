@@ -35,7 +35,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card listing-detail-card">
-                        <img src="<%= listing.image %>" class="listing-image" alt="<%= listing.title %>">
+                        <img src="<%= listing.image && listing.image.url ? listing.image.url : listing.image %>" class="listing-image" alt="<%= listing.title %>">
                         <div class="card-body">
                             <h2 class="card-title mb-4"><%= listing.title %></h2>
 
@@ -320,14 +320,14 @@
 
     <!-- Mapbox Map Script -->
     <script>
-        // mapbox map initialize kar rahe hain
-        mapboxgl.accessToken = 'pk.eyJ1IjoiaXRzc2FyYW5oZXJlIiwiYSI6ImNsd3B3aDFybjFodTMyaXJ6cGQxeWdwYzcifQ.4HPJRlRvgTdHaXXTDQEWCg';
+        // mapbox map initialize kar rahe hain - environment variables se token le rahe hain
+        mapboxgl.accessToken = '<%= process.env.MAPBOX_ACCESS_TOKEN %>';
 
-        // GLA University ke coordinates
-        const collegeCoords = [77.5946, 27.5916];
+        // GLA University ke coordinates - environment variables se
+        const collegeCoords = [<%= process.env.GLA_UNIVERSITY_LONGITUDE || 77.5946 %>, <%= process.env.GLA_UNIVERSITY_LATITUDE || 27.5916 %>];
 
-        // Mathura city center ke coordinates (red marker)
-        const mathuraCoords = [77.6737, 27.4924];
+        // Mathura city center ke coordinates (red marker) - environment variables se
+        const mathuraCoords = [<%= process.env.DEFAULT_LONGITUDE || 77.6737 %>, <%= process.env.DEFAULT_LATITUDE || 27.4924 %>];
 
         // PG ke coordinates listing se (default Mathura center)
         const pgLat = <%= listing.coordinates && listing.coordinates.latitude ? listing.coordinates.latitude : 27.4924 %>;

@@ -25,7 +25,7 @@
                             <h4 class="mb-0"><i class="fas fa-edit me-2"></i>Edit PG Listing</h4>
                         </div>
                         <div class="card-body">
-                            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" novalidate>
+                            <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" novalidate enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="title" class="form-label">PG Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="title" name="listing[title]" required minlength="3" maxlength="100" placeholder="Enter PG name (e.g., Sunrise PG)" value="<%= listing.title %>">
@@ -117,13 +117,23 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">Image URL (optional)</label>
-                                    <input type="url" class="form-control" id="image" name="listing[image]" placeholder="Enter image URL (leave blank for default image)" value="<%= listing.image %>">
+                                    <label for="image" class="form-label">Update PG Image (optional)</label>
+                                    <% if (listing.image && listing.image.url) { %>
+                                        <div class="mb-2">
+                                            <img src="<%= listing.image.url %>" alt="Current PG Image" class="img-thumbnail" style="max-width: 200px; max-height: 150px;">
+                                            <p class="text-muted small mt-1">Current image</p>
+                                        </div>
+                                    <% } %>
+                                    <input type="file" class="form-control" id="image" name="listing[image]" accept="image/*">
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Upload a new image to replace the current one. Supported formats: JPG, PNG, WEBP (Max 5MB)
+                                    </div>
                                     <div class="valid-feedback">
-                                        Perfect! Valid image URL provided.
+                                        Perfect! New image file selected successfully.
                                     </div>
                                     <div class="invalid-feedback">
-                                        Please enter a valid URL (e.g., https://example.com/image.jpg).
+                                        Please select a valid image file (JPG, PNG, WEBP).
                                     </div>
                                 </div>
 

@@ -16,6 +16,7 @@
     </div>
 
     <div class="sidebar-content">
+        <!-- Main Navigation -->
         <ul class="sidebar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="/listings">
@@ -33,9 +34,10 @@
             <% } %>
         </ul>
 
-        <div class="sidebar-divider"></div>
-
         <% if (currentUser) { %>
+            <div class="sidebar-divider"></div>
+
+            <!-- User Info Section -->
             <div class="sidebar-user-info">
                 <div class="user-avatar">
                     <i class="fas fa-user-circle"></i>
@@ -49,21 +51,9 @@
                     </div>
                 </div>
             </div>
+
+            <!-- User Actions -->
             <ul class="sidebar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/listings">
-                        <i class="fas fa-building"></i>
-                        <span class="nav-text">All PGs</span>
-                    </a>
-                </li>
-                <% if (currentUser.userType === 'owner') { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="/listings/new">
-                        <i class="fas fa-plus"></i>
-                        <span class="nav-text">Add New PG</span>
-                    </a>
-                </li>
-                <% } %>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">
                         <i class="fas fa-sign-out-alt"></i>
@@ -72,6 +62,9 @@
                 </li>
             </ul>
         <% } else { %>
+            <div class="sidebar-divider"></div>
+
+            <!-- Authentication Links -->
             <ul class="sidebar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="/login">
