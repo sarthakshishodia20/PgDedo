@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-// Listing validation schema
+// listing validation ke liye schema
 module.exports.listingSchema = Joi.object({
     listing: Joi.object({
         title: Joi.string().required().min(3).max(100),
@@ -16,7 +16,7 @@ module.exports.listingSchema = Joi.object({
     }).required()
 });
 
-// Review validation schema
+// review validation ke liye schema
 module.exports.reviewSchema = Joi.object({
     review: Joi.object({
         comment: Joi.string().required().min(10).max(500),

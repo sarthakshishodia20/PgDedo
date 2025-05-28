@@ -1,3 +1,4 @@
+// sample PG listings ka data - testing ke liye banaya hai
 const sampleListings=[
   {
     title: "Dk Hostel",
@@ -241,4 +242,5 @@ const sampleListings=[
   }
 ]
 
+// data export kar rahe hain
 module.exports={data:sampleListings};

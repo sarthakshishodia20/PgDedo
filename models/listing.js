@@ -33,7 +33,7 @@ const listingSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    // Reference to the user who created this listing
+    // ye listing kisne banai hai uska reference
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User',

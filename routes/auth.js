@@ -4,25 +4,25 @@ const passport = require('passport');
 const User = require('../models/user');
 const wrapAsync = require('../utils/wrapAsync');
 
-// GET /register - Show registration form
+// registration form dikhane ka route
 router.get('/register', (req, res) => {
     res.render('auth/register');
 });
 
-// POST /register - Handle registration
+// registration handle karne ka route
 router.post('/register', wrapAsync(async (req, res) => {
     try {
         const { email, password, fullName, userType, phone } = req.body;
-        
+
         const user = new User({
             email,
             fullName,
             userType,
             phone
         });
-        
+
         const registeredUser = await User.register(user, password);
-        
+
         req.login(registeredUser, (err) => {
             if (err) {
                 req.flash('error', 'Something went wrong during login');
@@ -37,17 +37,17 @@ router.post('/register', wrapAsync(async (req, res) => {
     }
 }));
 
-// GET /login - Show login form
+// login form dikhane ka route
 router.get('/login', (req, res) => {
     res.render('auth/login');
 });
 
-// POST /login - Handle login
-router.post('/login', 
+// login handle karne ka route
+router.post('/login',
     passport.authenticate('local', {
         failureFlash: true,
         failureRedirect: '/login'
-    }), 
+    }),
     (req, res) => {
         req.flash('success', `Welcome back, ${req.user.fullName}!`);
         const redirectUrl = req.session.returnTo || '/listings';
@@ -56,7 +56,7 @@ router.post('/login',
     }
 );
 
-// GET /logout - Handle logout
+// logout handle karne ka route
 router.get('/logout', (req, res) => {
     const userName = req.user ? req.user.fullName : '';
     req.logout((err) => {

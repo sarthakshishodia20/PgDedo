@@ -37,7 +37,7 @@ const userSchema = new Schema({
     }
 });
 
-// Add passport-local-mongoose plugin
+// passport-local-mongoose plugin add kar rahe hain authentication ke liye
 userSchema.plugin(passportLocalMongoose, {
     usernameField: 'email',
     errorMessages: {
@@ -52,7 +52,7 @@ userSchema.plugin(passportLocalMongoose, {
     }
 });
 
-// Virtual for formatted date
+// date ko formatted way mein dikhane ke liye virtual
 userSchema.virtual('formattedDate').get(function() {
     return this.createdAt.toLocaleDateString('en-IN', {
         year: 'numeric',
@@ -61,12 +61,12 @@ userSchema.virtual('formattedDate').get(function() {
     });
 });
 
-// Instance method to check if user is owner
+// user owner hai ya nahi check karne ke liye method
 userSchema.methods.isOwner = function() {
     return this.userType === 'owner';
 };
 
-// Instance method to check if user is student
+// user student hai ya nahi check karne ke liye method
 userSchema.methods.isStudent = function() {
     return this.userType === 'student';
 };

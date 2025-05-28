@@ -4,6 +4,7 @@ const Listing=require("../models/listing.js");
 
 const MONGO_URL="mongodb://127.0.0.1:27017/findmypg";
 
+// database connection kar rahe hain
 main().then(()=>{
     console.log("connected to database");
 }).catch((err)=>{
@@ -14,9 +15,10 @@ async function main(){
     await mongoose.connect(MONGO_URL);
 }
 
+// database initialize karne ka function
 const initdb=async()=>{
-    await Listing.deleteMany({});
-    await Listing.insertMany(initData.data);
+    await Listing.deleteMany({}); // purane data delete karo
+    await Listing.insertMany(initData.data); // naya data insert karo
     console.log("data was initialised");
 }
 initdb();

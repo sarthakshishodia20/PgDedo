@@ -36,7 +36,7 @@ body {
     }
 }
 
-/* Ensure gradient is always visible */
+/* gradient hamesha visible rahe isliye ye styling */
 body::before {
     content: '';
     position: fixed;
@@ -51,7 +51,7 @@ body::before {
     pointer-events: none;
 }
 
-/* Additional overlay for content readability */
+/* content readability ke liye additional overlay */
 body::after {
     content: '';
     position: fixed;
@@ -64,7 +64,7 @@ body::after {
     pointer-events: none;
 }
 
-/* Sidebar Toggle Button */
+/* sidebar toggle button ki styling */
 .sidebar-toggle {
     position: fixed;
     top: 20px;
@@ -93,7 +93,7 @@ body::after {
     box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
 }
 
-/* Sidebar Overlay */
+/* sidebar overlay ki styling */
 .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -113,7 +113,7 @@ body::after {
     visibility: visible;
 }
 
-/* Vertical Sidebar */
+/* vertical sidebar ki main styling */
 .sidebar {
     position: fixed;
     top: 0;

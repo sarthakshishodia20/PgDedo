@@ -25,13 +25,13 @@ const reviewSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    // Reference to the listing this review belongs to
+    // ye review kis listing ka hai uska reference
     listing: {
         type: Schema.Types.ObjectId,
         ref: 'Listing',
         required: [true, 'Review must belong to a listing']
     },
-    // Reference to user who wrote the review
+    // review kisne likha hai uska reference
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -39,10 +39,10 @@ const reviewSchema = new Schema({
     }
 });
 
-// Index for better query performance
+// query performance ke liye index banaya hai
 reviewSchema.index({ listing: 1, createdAt: -1 });
 
-// Virtual for formatted date
+// date ko formatted way mein dikhane ke liye virtual
 reviewSchema.virtual('formattedDate').get(function() {
     return this.createdAt.toLocaleDateString('en-IN', {
         year: 'numeric',
@@ -53,12 +53,12 @@ reviewSchema.virtual('formattedDate').get(function() {
     });
 });
 
-// Virtual for star display
+// stars dikhane ke liye virtual banaya hai
 reviewSchema.virtual('stars').get(function() {
     return '★'.repeat(this.rating) + '☆'.repeat(5 - this.rating);
 });
 
-// Static method to calculate average rating for a listing
+// listing ka average rating calculate karne ke liye static method
 reviewSchema.statics.getAverageRating = async function(listingId) {
     const result = await this.aggregate([
         { $match: { listing: listingId } },
@@ -77,7 +77,7 @@ reviewSchema.statics.getAverageRating = async function(listingId) {
     } : { averageRating: 0, totalReviews: 0 };
 };
 
-// Instance method to get rating description
+// rating ka description dene ke liye instance method
 reviewSchema.methods.getRatingDescription = function() {
     const descriptions = {
         1: 'Poor',

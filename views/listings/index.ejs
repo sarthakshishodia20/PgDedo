@@ -162,42 +162,42 @@
 
     <!-- Typewriter Effect JavaScript -->
     <script>
-        // Typewriter Effect
+        // typewriter effect banaya hai
         const typewriterText = document.getElementById('typewriter-text');
         const textToType = "Find Your Perfect PG near GLA University!";
         let currentIndex = 0;
         let isDeleting = false;
-        let typeSpeed = 100; // Speed of typing
-        let deleteSpeed = 50; // Speed of deleting
-        let pauseTime = 2000; // Pause time at end of text
+        let typeSpeed = 100; // typing ki speed
+        let deleteSpeed = 50; // deleting ki speed
+        let pauseTime = 2000; // text ke end mein pause time
 
         function typeWriter() {
             if (!isDeleting && currentIndex < textToType.length) {
-                // Typing forward
+                // aage typing kar rahe hain
                 typewriterText.textContent = textToType.substring(0, currentIndex + 1);
                 currentIndex++;
                 setTimeout(typeWriter, typeSpeed);
             } else if (!isDeleting && currentIndex === textToType.length) {
-                // Pause at end
+                // end mein pause karo
                 setTimeout(() => {
                     isDeleting = true;
                     typeWriter();
                 }, pauseTime);
             } else if (isDeleting && currentIndex > 0) {
-                // Deleting backward
+                // peeche delete kar rahe hain
                 typewriterText.textContent = textToType.substring(0, currentIndex - 1);
                 currentIndex--;
                 setTimeout(typeWriter, deleteSpeed);
             } else if (isDeleting && currentIndex === 0) {
-                // Start over
+                // dobara start karo
                 isDeleting = false;
                 setTimeout(typeWriter, 500);
             }
         }
 
-        // Start typewriter effect when page loads
+        // page load hone pe typewriter effect start karo
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(typeWriter, 1000); // Start after 1 second
+            setTimeout(typeWriter, 1000); // 1 second baad start karo
         });
     </script>
 

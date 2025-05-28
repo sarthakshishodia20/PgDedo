@@ -7,7 +7,7 @@ const ExpressError = require('../utils/ExpressError');
 const { reviewSchema } = require('../schemas');
 const { isLoggedIn, isReviewAuthor } = require('../middleware');
 
-// Validation middleware for reviews
+// reviews ke liye validation middleware
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
     if (error) {
@@ -18,7 +18,7 @@ const validateReview = (req, res, next) => {
     }
 };
 
-// POST /listings/:id/reviews - Create a new review
+// naya review create karne ka route
 router.post('/', isLoggedIn, validateReview, wrapAsync(async (req, res) => {
     const listing = await Listing.findById(req.params.id);
     if (!listing) {
@@ -34,7 +34,7 @@ router.post('/', isLoggedIn, validateReview, wrapAsync(async (req, res) => {
     res.redirect(`/listings/${listing._id}`);
 }));
 
-// DELETE /listings/:id/reviews/:reviewId - Delete a review
+// review delete karne ka route
 router.delete('/:reviewId', isLoggedIn, isReviewAuthor, wrapAsync(async (req, res) => {
     const { id, reviewId } = req.params;
 

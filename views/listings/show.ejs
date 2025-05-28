@@ -320,23 +320,23 @@
 
     <!-- Mapbox Map Script -->
     <script>
-        // Initialize Mapbox map
+        // mapbox map initialize kar rahe hain
         mapboxgl.accessToken = 'pk.eyJ1IjoiaXRzc2FyYW5oZXJlIiwiYSI6ImNsd3B3aDFybjFodTMyaXJ6cGQxeWdwYzcifQ.4HPJRlRvgTdHaXXTDQEWCg';
 
-        // GLA University coordinates
+        // GLA University ke coordinates
         const collegeCoords = [77.5946, 27.5916];
 
-        // Mathura city center coordinates (red marker)
+        // Mathura city center ke coordinates (red marker)
         const mathuraCoords = [77.6737, 27.4924];
 
-        // PG coordinates from listing (defaults to Mathura center)
+        // PG ke coordinates listing se (default Mathura center)
         const pgLat = <%= listing.coordinates && listing.coordinates.latitude ? listing.coordinates.latitude : 27.4924 %>;
         const pgLng = <%= listing.coordinates && listing.coordinates.longitude ? listing.coordinates.longitude : 77.6737 %>;
         const pgCoords = [pgLng, pgLat];
 
         console.log('Initializing map with coordinates:', pgCoords);
 
-        // Map theme configuration
+        // map theme configuration
         let isDarkMode = false;
         const lightStyle = 'mapbox://styles/mapbox/streets-v12';
         const darkStyle = 'mapbox://styles/mapbox/dark-v11';
@@ -351,26 +351,26 @@
 
             console.log('Map created successfully');
 
-            // Wait for map to load before adding markers
+            // map load hone ka wait kar rahe hain markers add karne se pehle
             map.on('load', function() {
                 console.log('Map loaded successfully');
 
-                // Add navigation controls
+                // navigation controls add kar rahe hain
                 map.addControl(new mapboxgl.NavigationControl());
 
-                // Add GLA University marker (blue) - always visible
+                // GLA University marker (blue) - hamesha visible
                 new mapboxgl.Marker({ color: '#007bff' })
                     .setLngLat(collegeCoords)
                     .setPopup(new mapboxgl.Popup().setHTML('<h6><i class="fas fa-university"></i> GLA University</h6><p>Main College Campus<br><small>Mathura, Uttar Pradesh</small></p>'))
                     .addTo(map);
 
-                // Add Mathura city center marker (red) - always visible
+                // Mathura city center marker (red) - hamesha visible
                 new mapboxgl.Marker({ color: '#dc3545' })
                     .setLngLat(mathuraCoords)
                     .setPopup(new mapboxgl.Popup().setHTML('<h6><i class="fas fa-city"></i> Mathura City Center</h6><p>Main City Area<br><small>Mathura, Uttar Pradesh</small></p>'))
                     .addTo(map);
 
-                // Add PG marker (green) - only if coordinates are different from both college and city center
+                // PG marker (green) - sirf tab dikhao jab coordinates different hain
                 if ((pgCoords[0] !== collegeCoords[0] || pgCoords[1] !== collegeCoords[1]) &&
                     (pgCoords[0] !== mathuraCoords[0] || pgCoords[1] !== mathuraCoords[1])) {
                     new mapboxgl.Marker({ color: '#28a745' })
@@ -378,14 +378,14 @@
                         .setPopup(new mapboxgl.Popup().setHTML('<h6><i class="fas fa-home"></i> <%= listing.title %></h6><p><i class="fas fa-map-marker-alt"></i> <%= listing.location %><br><small><i class="fas fa-rupee-sign"></i> ₹<%= listing.price %>/month</small></p>'))
                         .addTo(map);
 
-                    // Fit map to show all three markers
+                    // teeno markers dikhane ke liye map fit karo
                     const bounds = new mapboxgl.LngLatBounds();
                     bounds.extend(collegeCoords);
                     bounds.extend(mathuraCoords);
                     bounds.extend(pgCoords);
                     map.fitBounds(bounds, { padding: 50 });
                 } else {
-                    // Fit map to show college and city center
+                    // sirf college aur city center dikhane ke liye map fit karo
                     const bounds = new mapboxgl.LngLatBounds();
                     bounds.extend(collegeCoords);
                     bounds.extend(mathuraCoords);
@@ -395,14 +395,14 @@
                 console.log('Markers added successfully');
             });
 
-            // Map theme toggle functionality
+            // map theme toggle functionality
             const themeToggleBtn = document.getElementById('mapThemeToggle');
 
             function toggleMapTheme() {
                 isDarkMode = !isDarkMode;
                 const newStyle = isDarkMode ? darkStyle : lightStyle;
 
-                // Update button text and icon
+                // button text aur icon update karo
                 if (isDarkMode) {
                     themeToggleBtn.innerHTML = '<i class="fas fa-sun me-1"></i>Light Mode';
                     themeToggleBtn.className = 'btn btn-outline-warning btn-sm';
@@ -411,29 +411,29 @@
                     themeToggleBtn.className = 'btn btn-outline-secondary btn-sm';
                 }
 
-                // Change map style
+                // map style change karo
                 map.setStyle(newStyle);
 
-                // Re-add markers after style change
+                // style change ke baad markers dobara add karo
                 map.once('styledata', function() {
-                    // Add navigation controls
+                    // navigation controls add karo
                     if (!map.hasControl(map._controls[0])) {
                         map.addControl(new mapboxgl.NavigationControl());
                     }
 
-                    // Add GLA University marker (blue)
+                    // GLA University marker (blue) add karo
                     new mapboxgl.Marker({ color: '#007bff' })
                         .setLngLat(collegeCoords)
                         .setPopup(new mapboxgl.Popup().setHTML('<h6><i class="fas fa-university"></i> GLA University</h6><p>Main College Campus<br><small>Mathura, Uttar Pradesh</small></p>'))
                         .addTo(map);
 
-                    // Add Mathura city center marker (red)
+                    // Mathura city center marker (red) add karo
                     new mapboxgl.Marker({ color: '#dc3545' })
                         .setLngLat(mathuraCoords)
                         .setPopup(new mapboxgl.Popup().setHTML('<h6><i class="fas fa-city"></i> Mathura City Center</h6><p>Main City Area<br><small>Mathura, Uttar Pradesh</small></p>'))
                         .addTo(map);
 
-                    // Add PG marker (green) if coordinates are different
+                    // PG marker (green) add karo agar coordinates different hain
                     if ((pgCoords[0] !== collegeCoords[0] || pgCoords[1] !== collegeCoords[1]) &&
                         (pgCoords[0] !== mathuraCoords[0] || pgCoords[1] !== mathuraCoords[1])) {
                         new mapboxgl.Marker({ color: '#28a745' })
@@ -444,10 +444,10 @@
                 });
             }
 
-            // Add click event to theme toggle button
+            // theme toggle button pe click event add karo
             themeToggleBtn.addEventListener('click', toggleMapTheme);
 
-            // Handle map errors
+            // map errors handle karo
             map.on('error', function(e) {
                 console.error('Map error:', e);
                 document.getElementById('map').innerHTML = '<div class="d-flex align-items-center justify-content-center h-100"><p class="text-muted">Map could not be loaded. Error: ' + e.error.message + '</p></div>';
@@ -461,14 +461,14 @@
 
     <!-- Sidebar JavaScript -->
     <script>
-        // Sidebar functionality
+        // sidebar functionality
         const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const sidebarClose = document.getElementById('sidebarClose');
         const main = document.querySelector('main');
         const footer = document.querySelector('footer');
-        let sidebarOpen = true; // Default state is open
+        let sidebarOpen = true; // default state open hai
 
         function toggleSidebar() {
             if (sidebarOpen) {
@@ -494,7 +494,7 @@
             sidebarOpen = false;
         }
 
-        // Initialize sidebar state
+        // sidebar state initialize karo
         sidebarToggle.innerHTML = '<i class="fas fa-times"></i>';
 
         sidebarToggle.addEventListener('click', toggleSidebar);

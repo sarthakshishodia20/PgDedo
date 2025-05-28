@@ -2,6 +2,7 @@ const { listingSchema } = require('./schemas.js');
 const Listing = require('./models/listing');
 const Review = require('./models/review');
 
+// listing validation ka middleware
 module.exports.validateListing = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
     if (error) {
@@ -14,7 +15,7 @@ module.exports.validateListing = (req, res, next) => {
     }
 };
 
-// Check if user is logged in
+// user logged in hai ya nahi check karne ke liye
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
         req.session.returnTo = req.originalUrl;
@@ -24,6 +25,7 @@ module.exports.isLoggedIn = (req, res, next) => {
     next();
 };
 
+// listing ka author hai ya nahi check karne ke liye
 module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -38,7 +40,7 @@ module.exports.isAuthor = async (req, res, next) => {
     next();
 };
 
-// Check if user is an owner (for creating listings)
+// user owner hai ya nahi check karne ke liye (listing create karne ke liye)
 module.exports.isOwner = (req, res, next) => {
     if (!req.user || req.user.userType !== 'owner') {
         req.flash('error', 'Only PG owners can create listings');
@@ -47,7 +49,7 @@ module.exports.isOwner = (req, res, next) => {
     next();
 };
 
-// Check if user is the author of the review
+// review ka author hai ya nahi check karne ke liye
 module.exports.isReviewAuthor = async (req, res, next) => {
     const { reviewId } = req.params;
     const review = await Review.findById(reviewId);
