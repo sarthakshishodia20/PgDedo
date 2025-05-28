@@ -28,7 +28,7 @@
                             <form method="POST" action="/listings" class="needs-validation" novalidate>
                                 <div class="mb-3">
                                     <label for="title" class="form-label">PG Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="title" name="title" required minlength="3" maxlength="100" placeholder="Enter PG name (e.g., Sunrise PG)">
+                                    <input type="text" class="form-control" id="title" name="listing[title]" required minlength="3" maxlength="100" placeholder="Enter PG name (e.g., Sunrise PG)">
                                     <div class="valid-feedback">
                                         Great! PG name looks good.
                                     </div>
@@ -39,7 +39,7 @@
 
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" id="description" name="description" rows="4" required minlength="10" maxlength="1000" placeholder="Describe the PG facilities, amenities, and features"></textarea>
+                                    <textarea class="form-control" id="description" name="listing[description]" rows="4" required minlength="10" maxlength="1000" placeholder="Describe the PG facilities, amenities, and features. Mention that the owner is available for contact."></textarea>
                                     <div class="valid-feedback">
                                         Perfect! Description is detailed and helpful.
                                     </div>
@@ -54,7 +54,7 @@
                                             <label for="price" class="form-label">Monthly Rent <span class="text-danger">*</span></label>
                                             <div class="input-group">
                                                 <span class="input-group-text">₹</span>
-                                                <input type="number" class="form-control" id="price" name="price" required placeholder="3000" min="1000" max="100000">
+                                                <input type="number" class="form-control" id="price" name="listing[price]" required placeholder="3000" min="1000" max="100000">
                                             </div>
                                             <div class="valid-feedback">
                                                 Excellent! Price is within acceptable range.
@@ -67,7 +67,7 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="location" class="form-label">Location <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="location" name="location" required minlength="2" maxlength="50" placeholder="Enter city/area (e.g., Mathura)">
+                                            <input type="text" class="form-control" id="location" name="listing[location]" required minlength="2" maxlength="50" placeholder="Enter city/area (e.g., Mathura)">
                                             <div class="valid-feedback">
                                                 Perfect! Location is clear and specific.
                                             </div>
@@ -80,7 +80,7 @@
 
                                 <div class="mb-3">
                                     <label for="landmark" class="form-label">Landmark</label>
-                                    <input type="text" class="form-control" id="landmark" name="landmark" maxlength="100" placeholder="Enter nearby landmark (e.g., Near GLA Gate)">
+                                    <input type="text" class="form-control" id="landmark" name="listing[landmark]" maxlength="100" placeholder="Enter nearby landmark (e.g., Near GLA Gate)">
                                     <div class="valid-feedback">
                                         Great! Landmark will help students find the PG easily.
                                     </div>
@@ -89,36 +89,41 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="latitude" class="form-label">Latitude <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" id="latitude" name="listing[coordinates][latitude]" required step="any" placeholder="27.5916" min="-90" max="90">
+                                            <div class="valid-feedback">
+                                                Perfect! Valid latitude coordinate.
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid latitude (-90 to 90).
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="longitude" class="form-label">Longitude <span class="text-danger">*</span></label>
+                                            <input type="number" class="form-control" id="longitude" name="listing[coordinates][longitude]" required step="any" placeholder="77.5946" min="-180" max="180">
+                                            <div class="valid-feedback">
+                                                Perfect! Valid longitude coordinate.
+                                            </div>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid longitude (-180 to 180).
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Image URL (optional)</label>
-                                    <input type="url" class="form-control" id="image" name="image" placeholder="Enter image URL (leave blank for default image)">
+                                    <input type="url" class="form-control" id="image" name="listing[image]" placeholder="Enter image URL (leave blank for default image)">
                                     <div class="valid-feedback">
                                         Perfect! Valid image URL provided.
                                     </div>
                                     <div class="invalid-feedback">
                                         Please enter a valid URL (e.g., https://example.com/image.jpg).
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="ownerName" class="form-label">Owner Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="ownerName" name="owner[name]" required minlength="2" maxlength="50" placeholder="Enter owner's name">
-                                    <div class="valid-feedback">
-                                        Excellent! Owner name is clear and professional.
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid owner name (2-50 characters).
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="ownerContact" class="form-label">Owner Contact <span class="text-danger">*</span></label>
-                                    <input type="tel" class="form-control" id="ownerContact" name="owner[contact]" required pattern="^\+91\s?\d{10}$" placeholder="Enter contact number (e.g., +91 9876543210)">
-                                    <div class="valid-feedback">
-                                        Perfect! Contact number is in correct format.
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Please enter a valid Indian mobile number (+91 followed by 10 digits).
                                     </div>
                                 </div>
 

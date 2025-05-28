@@ -9,9 +9,9 @@ module.exports.listingSchema = Joi.object({
         landmark: Joi.string().required().min(3).max(100),
         price: Joi.number().required().min(0),
         image: Joi.string().allow('', null),
-        owner: Joi.object({
-            name: Joi.string().required().min(2).max(50),
-            contact: Joi.string().required().pattern(/^[6-9]\d{9}$/)
+        coordinates: Joi.object({
+            latitude: Joi.number().required().min(-90).max(90),
+            longitude: Joi.number().required().min(-180).max(180)
         }).required()
     }).required()
 });
@@ -20,10 +20,6 @@ module.exports.listingSchema = Joi.object({
 module.exports.reviewSchema = Joi.object({
     review: Joi.object({
         comment: Joi.string().required().min(10).max(500),
-        rating: Joi.number().required().min(1).max(5).integer(),
-        author: Joi.object({
-            name: Joi.string().required().min(2).max(50),
-            email: Joi.string().required().email()
-        }).required()
+        rating: Joi.number().required().min(1).max(5).integer()
     }).required()
 });

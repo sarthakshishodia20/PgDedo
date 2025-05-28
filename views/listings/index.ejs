@@ -25,7 +25,7 @@
         <div class="col-12">
             <div class="page-header">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2><i class="fas fa-building me-3"></i>Find Your Perfect PG</h2>
+                    <h2><i class="fas fa-building me-3"></i><span id="typewriter-text"></span><span class="typewriter-cursor">|</span></h2>
                     <% if (currentUser && currentUser.userType === 'owner') { %>
                         <a href="/listings/new" class="btn btn-primary btn-lg">
                             <i class="fas fa-plus me-2"></i>Add New PG
@@ -71,7 +71,7 @@
                 <div class="pg-slider">
                     <div class="slider-wrapper" id="sliderWrapper">
                         <div class="slide active">
-                            <img src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb2fe1cb4-a00b-4eb6-9c50-eac6565d7e3f_1456x816.png" alt="Modern PG Accommodation" draggable="false">
+                            <img src="https://asset-cdn.stanzaliving.com/stanza-living/image/upload/f_auto,q_auto,w_600/e_improve/e_sharpen:10/e_saturation:10/f_auto,q_auto/v1655904156/Website/CMS-Uploads/koevykgrlrqs09vitikk.jpg" alt="Modern PG Accommodation" draggable="false">
                         </div>
                         <div class="slide">
                             <img src="https://5.imimg.com/data5/SELLER/Default/2021/12/TJ/CE/PP/51665645/paying-guest-houses-interior-desing.jpg" alt="Affordable PG Options" draggable="false">
@@ -80,7 +80,7 @@
                             <img src="https://img.cofynd.com/images/original/b8bc23cebcc5b5451a903e05d0f820ad5ba05b45.jpg" alt="Premium PG Facilities" draggable="false">
                         </div>
                         <div class="slide">
-                            <img src="https://img.freepik.com/free-vector/empty-apartment-interior-illustration_33099-2021.jpg?semt=ais_hybrid&w=740" alt="Student Community" draggable="false">
+                            <img src="https://asset-cdn.stanzaliving.com/stanza-living/image/upload/f_auto,q_auto,w_600/e_improve/e_sharpen:10/e_saturation:10/f_auto,q_auto/v1658404478/Website/CMS-Uploads/mgqdrut0alcwh69f7mqt.jpg" alt="Student Community" draggable="false">
                         </div>
                         <div class="slide">
                             <img src="https://www.srmasc.ac.in/wp-content/uploads/2022/02/Hostel-1.jpg" alt="Convenient Location" draggable="false">
@@ -159,6 +159,47 @@
 
     <%- include('../includes/footer') %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Typewriter Effect JavaScript -->
+    <script>
+        // Typewriter Effect
+        const typewriterText = document.getElementById('typewriter-text');
+        const textToType = "Find Your Perfect PG near GLA University!";
+        let currentIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100; // Speed of typing
+        let deleteSpeed = 50; // Speed of deleting
+        let pauseTime = 2000; // Pause time at end of text
+
+        function typeWriter() {
+            if (!isDeleting && currentIndex < textToType.length) {
+                // Typing forward
+                typewriterText.textContent = textToType.substring(0, currentIndex + 1);
+                currentIndex++;
+                setTimeout(typeWriter, typeSpeed);
+            } else if (!isDeleting && currentIndex === textToType.length) {
+                // Pause at end
+                setTimeout(() => {
+                    isDeleting = true;
+                    typeWriter();
+                }, pauseTime);
+            } else if (isDeleting && currentIndex > 0) {
+                // Deleting backward
+                typewriterText.textContent = textToType.substring(0, currentIndex - 1);
+                currentIndex--;
+                setTimeout(typeWriter, deleteSpeed);
+            } else if (isDeleting && currentIndex === 0) {
+                // Start over
+                isDeleting = false;
+                setTimeout(typeWriter, 500);
+            }
+        }
+
+        // Start typewriter effect when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(typeWriter, 1000); // Start after 1 second
+        });
+    </script>
 
     <!-- Slider JavaScript -->
     <script>

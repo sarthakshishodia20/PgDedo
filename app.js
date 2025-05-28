@@ -13,7 +13,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const wrapAsync = require('./utils/wrapAsync');
 const ExpressError = require('./utils/ExpressError');
-const { validateListing, isLoggedIn, isAuthor, isOwner } = require('./middleware');
+const { validateListing, isLoggedIn, isAuthor, isOwner, isReviewAuthor } = require('./middleware');
 
 // Import routes
 const reviewRoutes = require('./routes/reviews');
@@ -172,7 +172,7 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
     }
 
     // Get reviews for this listing
-    const reviews = await Review.find({ listing: id }).sort({ createdAt: -1 });
+    const reviews = await Review.find({ listing: id }).populate('author').sort({ createdAt: -1 });
 
     // Get average rating
     const ratingData = await Review.getAverageRating(id);

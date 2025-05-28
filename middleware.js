@@ -1,5 +1,6 @@
-const { listingSchema } = require('./schema.js');
+const { listingSchema } = require('./schemas.js');
 const Listing = require('./models/listing');
+const Review = require('./models/review');
 
 module.exports.validateListing = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);
@@ -42,6 +43,21 @@ module.exports.isOwner = (req, res, next) => {
     if (!req.user || req.user.userType !== 'owner') {
         req.flash('error', 'Only PG owners can create listings');
         return res.redirect('/listings');
+    }
+    next();
+};
+
+// Check if user is the author of the review
+module.exports.isReviewAuthor = async (req, res, next) => {
+    const { reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+    if (!review) {
+        req.flash('error', 'Review not found!');
+        return res.redirect('/listings');
+    }
+    if (!review.author.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to delete this review!');
+        return res.redirect(`/listings/${req.params.id}`);
     }
     next();
 };

@@ -19,14 +19,14 @@ const listingSchema = new Schema({
     price: Number,
     location: String,
     landmark: String,
-    owner: {
-        name: {
-            type: String,
-            required: true,
+    coordinates: {
+        latitude: {
+            type: Number,
+            required: true
         },
-        contact: {
-            type: String,
-            required: true,
+        longitude: {
+            type: Number,
+            required: true
         }
     },
     createdAt: {
