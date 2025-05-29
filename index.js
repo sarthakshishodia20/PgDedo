@@ -6,6 +6,7 @@ const app = express();
 const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 const User = require("./models/user.js");
+const Notice = require("./models/notice.js");
 const mongoose = require('mongoose');
 const path = require('path');
 const methodOverride = require('method-override');
@@ -117,6 +118,49 @@ app.get('/', (req, res) => {
     res.send("Server is running");
 });
 
+// Test route to create a sample notice
+app.get('/test-notice/:listingId', async (req, res) => {
+    try {
+        const { listingId } = req.params;
+        const listing = await Listing.findById(listingId);
+
+        if (!listing) {
+            return res.send('Listing not found');
+        }
+
+        const notice = new Notice({
+            listing: listingId,
+            author: listing.author,
+            content: 'This is a test notice from the system. It will auto-delete in 24 hours.',
+            type: 'info'
+        });
+
+        await notice.save();
+        res.send(`Test notice created for listing ${listingId}. Check the listing page.`);
+    } catch (error) {
+        res.send('Error creating test notice: ' + error.message);
+    }
+});
+
+// Debug route to check notices
+app.get('/debug-notices/:listingId', async (req, res) => {
+    try {
+        const { listingId } = req.params;
+        const notices = await Notice.find({ listing: listingId });
+        const activeNotices = await Notice.getActiveNotices(listingId);
+
+        res.json({
+            listingId,
+            totalNotices: notices.length,
+            activeNotices: activeNotices.length,
+            allNotices: notices,
+            activeNoticesData: activeNotices
+        });
+    } catch (error) {
+        res.json({ error: error.message });
+    }
+});
+
 // saare listings dikhane ka route with search functionality
 app.get("/listings", wrapAsync(async (req, res) => {
     const { search } = req.query;
@@ -226,7 +270,11 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
     // average rating calculate karo
     const ratingData = await Review.getAverageRating(id);
 
-    res.render("listings/show", { listing, reviews, ratingData });
+    // is listing ke active notices lao
+    const notices = await Notice.getActiveNotices(id);
+    console.log('Notices found for listing', id, ':', notices.length);
+
+    res.render("listings/show", { listing, reviews, ratingData, notices });
 }));
 
 // 404 error handle karne ke liye
