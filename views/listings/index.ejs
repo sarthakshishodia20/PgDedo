@@ -15,54 +15,94 @@
 <body>
     <%- include('../includes/navbar') %>
 
+    <!-- Feature Icons Section -->
+    <section class="feature-icons">
+        <div class="feature-icons-container">
+            <div class="feature-icons-grid">
+                <div class="feature-icon">
+                    <i class="fas fa-phone"></i>
+                    <span>24/7 Support</span>
+                </div>
+                <div class="feature-icon">
+                    <i class="fas fa-bed"></i>
+                    <span>Furnished Rooms</span>
+                </div>
+                <div class="feature-icon">
+                    <i class="fas fa-video"></i>
+                    <span>CCTV Security</span>
+                </div>
+                <div class="feature-icon">
+                    <i class="fas fa-utensils"></i>
+                    <span>Food Included</span>
+                </div>
+                <div class="feature-icon">
+                    <i class="fas fa-wifi"></i>
+                    <span>Free WiFi</span>
+                </div>
+                <div class="feature-icon">
+                    <i class="fas fa-car"></i>
+                    <span>Parking</span>
+                </div>
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Safe & Secure</span>
+                </div>
+                <div class="feature-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Prime Location</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Main Content -->
     <main>
         <div class="container">
             <%- include('../includes/flash') %>
 
             <div class="listings-container">
-    <div class="row mb-5">
-        <div class="col-12">
-            <div class="page-header">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2><i class="fas fa-building me-3"></i><span id="typewriter-text"></span><span class="typewriter-cursor">|</span></h2>
-                    <% if (currentUser && currentUser.userType === 'owner') { %>
-                        <a href="/listings/new" class="btn btn-primary btn-lg">
-                            <i class="fas fa-plus me-2"></i>Add New PG
-                        </a>
-                    <% } %>
-                </div>
+                <div class="row mb-5">
+                    <div class="col-12">
+                        <div class="page-header">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2><i class="fas fa-building me-3"></i><span id="typewriter-text"></span><span class="typewriter-cursor">|</span></h2>
+                                <% if (currentUser && currentUser.userType === 'owner') { %>
+                                    <a href="/listings/new" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-plus me-2"></i>Add New PG
+                                    </a>
+                                <% } %>
+                            </div>
 
-                <!-- Search Bar -->
-                <div class="search-container">
-                    <form action="/listings" method="GET" class="search-form">
-                        <div class="input-group">
-                            <input type="text" class="form-control search-input" name="search"
-                                   placeholder="Search by PG name, location, or landmark..."
-                                   value="<%= search || '' %>">
-                            <button class="btn btn-primary search-btn" type="submit">
-                                <i class="fas fa-search me-2"></i>Search
-                            </button>
-                            <% if (search) { %>
-                                <a href="/listings" class="btn btn-outline-secondary">
-                                    <i class="fas fa-times me-2"></i>Clear
-                                </a>
-                            <% } %>
+                            <!-- Search Bar -->
+                            <div class="search-container">
+                                <form action="/listings" method="GET" class="search-form">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control search-input" name="search"
+                                               placeholder="Search by PG name, location, or landmark..."
+                                               value="<%= search || '' %>">
+                                        <button class="btn btn-primary search-btn" type="submit">
+                                            <i class="fas fa-search me-2"></i>Search
+                                        </button>
+                                        <% if (search) { %>
+                                            <a href="/listings" class="btn btn-outline-secondary">
+                                                <i class="fas fa-times me-2"></i>Clear
+                                            </a>
+                                        <% } %>
+                                    </div>
+                                </form>
+                                <% if (search) { %>
+                                    <div class="search-results-info mt-3">
+                                        <p class="text-info mb-0">
+                                            <i class="fas fa-search me-2"></i>
+                                            Showing results for "<strong><%= search %></strong>" -
+                                            <span class="badge bg-primary"><%= allListings.length %></span> PG(s) found
+                                        </p>
+                                    </div>
+                                <% } %>
+                            </div>
                         </div>
-                    </form>
-                    <% if (search) { %>
-                        <div class="search-results-info mt-3">
-                            <p class="text-info mb-0">
-                                <i class="fas fa-search me-2"></i>
-                                Showing results for "<strong><%= search %></strong>" -
-                                <span class="badge bg-primary"><%= allListings.length %></span> PG(s) found
-                            </p>
-                        </div>
-                    <% } %>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
     <!-- PG Image Slider -->
     <div class="row mb-5">
@@ -71,10 +111,10 @@
                 <div class="pg-slider">
                     <div class="slider-wrapper" id="sliderWrapper">
                         <div class="slide active">
-                            <img src="https://asset-cdn.stanzaliving.com/stanza-living/image/upload/f_auto,q_auto,w_600/e_improve/e_sharpen:10/e_saturation:10/f_auto,q_auto/v1655904156/Website/CMS-Uploads/koevykgrlrqs09vitikk.jpg" alt="Modern PG Accommodation" draggable="false">
+                            <img src="https://5.imimg.com/data5/SELLER/Default/2021/12/TJ/CE/PP/51665645/paying-guest-houses-interior-desing.jpg" alt="Modern PG Accommodation" draggable="false">
                         </div>
                         <div class="slide">
-                            <img src="https://5.imimg.com/data5/SELLER/Default/2021/12/TJ/CE/PP/51665645/paying-guest-houses-interior-desing.jpg" alt="Affordable PG Options" draggable="false">
+                            <img src="https://res.cloudinary.com/did71cuai/image/upload/v1748439691/pgdedo_listings/wkeqnjkk4dg99w6xp1ln.png" alt="Affordable PG Options" draggable="false">
                         </div>
                         <div class="slide">
                             <img src="https://img.cofynd.com/images/original/b8bc23cebcc5b5451a903e05d0f820ad5ba05b45.jpg" alt="Premium PG Facilities" draggable="false">
