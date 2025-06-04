@@ -1,286 +1,52 @@
-# PG DEDO - Bhai Log Ka PG Finder
+PG DEDO – Bhai Log Ka PG Finder
+Kya Hai Ye Project?
+PG Dedo ek simple aur powerful web app hai jisme students apni PG dhund sakte hain, aur PG owners apne listings add, edit, aur manage kar sakte hain. Is app mein reviews, ratings, notices, photos upload karna, aur Mapbox API ke through location dekhna possible hai. UI bilkul Airbnb jaisa clean aur responsive design ka hai — mobile-friendly bhi.
 
-## Kya Hai Ye Project Yaar?
+Features
+PG Listing Management: Owners apne PG listings add, edit, aur delete kar sakte hain
+Login-Logout System: Role-based authentication (student/owner) with session management
+Reviews & Ratings: Students PG ko rate kar sakte hain aur reviews de sakte hain
+Notice Board: PG owners ke liye notice post karne ka feature, jo 24 ghante baad auto-delete ho jata hai
+Photo Upload: Cloudinary integration ke saath photos upload kar sakte hain
+Search & Filter: Location, price, aur rating ke basis par easily search aur filter kar sakte hain
+Mapbox Integration: PG locations Mapbox API se dikha sakte hain interactive maps ke zariye
+Responsive UI: Bootstrap 5 ke saath mobile-friendly design
 
-Arre yaar, ye PG Dedo ek simple sa web app hai jo maine banaya hai college project ke liye. Basically ye students aur PG owners ko connect karta hai. Jaise hum log PG dhundte rehte hain na, toh ye app us problem ko solve karta hai. Students easily PG dhund sakte hain aur owners apne PG ka promotion kar sakte hain.
+Screenshots
+Navbar
+<img src="https://res.cloudinary.com/did71cuai/image/upload/v1749021170/pnavbar_wfjrg2.png" width="600"/>
+Homepage
+<img src="https://res.cloudinary.com/did71cuai/image/upload/v1749021259/phome_zgvmfi.png" width="600"/>
+Listing Info Page
+<img src="https://res.cloudinary.com/did71cuai/image/upload/v1749021269/pinfo_vrtbxa.png" width="600"/>
+Notice Board
+<img src="https://res.cloudinary.com/did71cuai/image/upload/v1749021277/pnotice_a7elcz.png" width="600"/>
+Map View (Mapbox API)
+<img src="https://res.cloudinary.com/did71cuai/image/upload/v1749021287/pmap_avu8is.png" width="600"/>
+Footer
+<img src="https://res.cloudinary.com/did71cuai/image/upload/v1749021307/pfoot_lojj6i.png" width="600"/>
+Tech Stack
+Backend: Node.js, Express.js, MongoDB, Mongoose, Passport.js, Cloudinary
+Frontend: EJS, HTML5, CSS3, Bootstrap 5, JavaScript, Font Awesome
+APIs: Mapbox for interactive location maps
+Authentication: Session-based with role management (student/owner)
+Quick Folder Structure
+index.js — Main server entry point
+models/ — Database schemas (User, Listing, Review, Notice)
+routes/ — Auth, Listings, Reviews, Notices routes
+views/ — EJS templates for UI
+utils/ — Helper functions
+middleware/ — Authentication and validation middlewares
 
-## Kya Kya Features Hain Bhai?
+Mapbox Integration
+Mapbox API se PG locations listings aur details page par dikhaye jate hain
+Interactive map jisme markers, popups, aur location-based filtering hai
+User ko PG dhundhne mein madad karta hai visual location ke through
 
-### Basic Cheezein Jo Kaam Karti Hain
-- PG listings add kar sakte hain, dekh sakte hain, edit kar sakte hain, delete kar sakte hain
-- Login-logout ka system hai proper
-- Reviews aur ratings de sakte hain PG ko
-- PG owners notice board use kar sakte hain students ke liye
-- Photos upload kar sakte hain Cloudinary se
-- Search kar sakte hain location wise ya price wise
-- Mobile mein bhi achha dikhta hai
-
-### Kaun Kaun Use Kar Sakta Hai
-- **Students**: Hum jaise log jo PG dhundte rehte hain, reviews padh sakte hain
-- **PG Owners**: Uncle aunty log jo PG chalate hain, apna listing manage kar sakte hain
-
-## Technical Stuff (Thoda Boring Hai Par Important)
-
-### Backend Mein Kya Use Kiya
-- **Node.js**: Server banane ke liye, JavaScript mein likha hai sab
-- **Express.js**: Routes aur middleware handle karne ke liye
-- **MongoDB**: Database hai, NoSQL type ka
-- **Mongoose**: MongoDB ko easily use karne ke liye
-- **Passport.js**: Login-logout ka jugaad
-- **Cloudinary**: Photos store karne ke liye cloud mein
-- **EJS**: HTML templates banane ke liye
-
-### Frontend Mein Kya Lagaya
-- **HTML5**: Basic structure
-- **CSS3**: Styling ke liye, Bootstrap bhi use kiya
-- **JavaScript**: Interactive cheezein karne ke liye
-- **Bootstrap 5**: Responsive design ke liye, mobile mein bhi achha lagta hai
-- **Font Awesome**: Icons ke liye
-
-### Database Mein Kya Kya Tables Hain
-- **User**: Students aur owners ki details
-- **Listing**: PG ki saari information
-- **Review**: Reviews aur ratings
-- **Notice**: PG owners ke notices
-
-## Files Kahan Kya Hai (Folder Structure)
-
-### Main Files
-- **index.js**: Ye main file hai bhai, yahan se sab start hota hai
-- **package.json**: Dependencies ka list, npm install karne ke liye
-- **.env**: Secret cheezein store karta hai, password wagera
-- **README.md**: Ye file jo tum padh rahe ho
-
-### Models Folder (Database Ke Schemas)
-- **models/user.js**: Users ki details store karta hai, login-logout ka system
-- **models/listing.js**: PG ki saari information, photos wagera
-- **models/review.js**: Reviews aur ratings ka data
-- **models/notice.js**: PG owners ke notices, 24 ghante baad delete ho jaate hain
-
-### Routes Folder (URL Handling)
-- **routes/auth.js**: Register, login, logout ke routes
-- **routes/reviews.js**: Review add karne delete karne ke routes
-- **routes/notices.js**: Notice post karne ke routes
-
-### Views Folder (HTML Templates)
-- **views/layouts/boilerplate.ejs**: Main template, header footer wagera
-- **views/listings/**: PG listings ke pages
-- **views/auth/**: Login register ke pages
-- **views/includes/**: Common components jo har page mein use hote hain
-
-### Utils Folder (Helper Functions)
-- **utils/wrapAsync.js**: Error handle karne ke liye
-- **utils/ExpressError.js**: Custom error banane ke liye
-- **utils/cloudinary.js**: Photo upload ke liye setup
-
-### Middleware Folder
-- **middleware.js**: Security check karne ke functions
-
-## Kaise Kaam Karta Hai Ye Sab (Detailed Functionality)
-![Navbar Preview](https://res.cloudinary.com/did71cuai/image/upload/v1749021170/pnavbar_wfjrg2.png)
-
-### Login-Logout Ka System
-- Email aur password se register kar sakte hain
-- Student ya Owner choose kar sakte hain registration mein
-- Password secure store hota hai, hash karke
-- Login karne ke baad session banta hai
-- Logout karne pe session clear ho jata hai
-
-### PG Listing Ka Kaam
-- Naye PG add kar sakte hain title, description, price, location ke saath
-- Photos upload kar sakte hain Cloudinary pe
-- Apne PG edit kar sakte hain (sirf owner)
-- Delete bhi kar sakte hain (sirf owner)
-- Saare PG dekh sakte hain search ke saath
-- Individual PG ka detail page bhi hai
-
-### Review System Ka Jugaad
-- Students review de sakte hain 1-5 stars ke saath
-- Comment likh sakte hain limited characters mein
-- Average rating calculate hota hai automatically
-- Apna review delete kar sakte hain
-- Listing page pe saare reviews dikhte hain
-
-### Notice Board Ka Feature
-- PG owners students ke liye notice post kar sakte hain
-- Teen types hain: General Info, Important Notice, Urgent Alert
-- 24 ghante baad automatically delete ho jaate hain
-- Sidebar mein compact format mein dikhte hain
-- Owner apne notice delete kar sakte hain
-
-### Search Aur Filter
-- Title, location, landmark se search kar sakte hain
-- Price range se filter kar sakte hain
-- Location wise search kar sakte hain
-- Price aur rating se sort kar sakte hain
-
-### Photo Upload Ka System
-- Cloudinary use kiya hai photos store karne ke liye
-- Listing create karte time photo upload kar sakte hain
-- Photos automatically optimize ho jaati hain
-- Secure URLs milte hain photos ke
-
-## Security Ke Liye Kya Kiya Hai
-
-### Login Security
-- Password hash karke store karta hai, plain text mein nahi
-- Session based authentication hai, cookies use karta hai
-- CSRF attacks se bachne ka setup hai
-- Input validation properly karta hai
-
-### Permission System
-- Role based access hai, student aur owner alag alag permissions
-- Sirf owner apne PG manage kar sakte hain
-- Sirf review author apna review delete kar sakte hain
-- Protected routes hain middleware ke saath
-
-### Data Validation
-- Server side validation hai Joi schemas se
-- Client side bhi validation hai better experience ke liye
-- XSS attacks se bachne ke liye input sanitize karta hai
-- MongoDB use kiya hai toh SQL injection ka tension nahi
-
-## Database Kaise Design Kiya
-
-### User Table
-- email, fullName, userType, phone store karta hai
-- Passport.js se authentication integrate kiya
-- Email pe index banaya hai fast search ke liye
-
-### Listing Table
-- title, description, image, price, location, landmark store karta hai
-- User table se reference hai author ke liye
-- Search ke liye text indexes banaye hain
-
-### Review Table
-- rating, comment, author, listing ka reference store karta hai
-- Efficient queries ke liye compound indexes banaye hain
-- Virtual properties hain formatted display ke liye
-
-### Notice Table
-- content, type, author, listing ka reference store karta hai
-- TTL index hai 24 hours baad auto-delete ke liye
-- Listing based queries ke liye compound indexes hain
-
-## Kya Kya URLs Hain (API Endpoints)
-
-### Login-Logout Ke Routes
-- GET /register - Registration ka form dikhata hai
-- POST /register - Naya user banata hai
-- GET /login - Login ka form dikhata hai
-- POST /login - User ko login karta hai
-- GET /logout - User ko logout karta hai
-
-### PG Listing Ke Routes
-- GET /listings - Saare PG listings dikhata hai
-- GET /listings/new - Naya PG add karne ka form (sirf owners)
-- POST /listings - Naya PG create karta hai
-- GET /listings/:id - Individual PG ka detail page
-- PUT /listings/:id - PG update karta hai (sirf owner)
-- DELETE /listings/:id - PG delete karta hai (sirf owner)
-
-### Review Ke Routes
-- POST /listings/:id/reviews - Naya review add karta hai
-- DELETE /listings/:id/reviews/:reviewId - Review delete karta hai (sirf author)
-
-### Notice Ke Routes
-- POST /listings/:id/notices - Naya notice add karta hai (sirf owner)
-- DELETE /listings/:id/notices/:noticeId - Notice delete karta hai (sirf owner)
-
-## Middleware Functions (Security Check Karne Wale)
-
-### Authentication Middleware
-- isLoggedIn: Check karta hai user logged in hai ya nahi
-- isAuthor: Check karta hai user listing ka owner hai ya nahi
-- isReviewAuthor: Check karta hai user review ka author hai ya nahi
-
-### Validation Middleware
-- validateListing: Listing ka data validate karta hai Joi se
-- validateReview: Review ka data validate karta hai Joi se
-- validateNotice: Notice ka data validate karta hai
-
-### File Upload Middleware
-- multer configuration photo upload ke liye
-- Cloudinary integration cloud storage ke liye
-
-## Error Handling (Jab Kuch Galat Ho Jaye)
-
-### Custom Error Classes
-- ExpressError class banaya hai specific errors ke liye
-- Async error wrapper use kiya hai route handlers mein
-- Global error handling middleware lagaya hai
-
-### Error Types
-- Validation errors user-friendly messages ke saath
-- Authentication errors redirect ke saath
-- Database errors fallback responses ke saath
-- File upload errors retry options ke saath
-
-## Environment Setup (Secret Cheezein)
-
-### Required Environment Variables (.env file mein)
-- MONGODB_URL: Database connection string
-- CLOUDINARY_CLOUD_NAME: Cloudinary account name
-- CLOUDINARY_API_KEY: Cloudinary API key
-- CLOUDINARY_API_SECRET: Cloudinary API secret
-- SESSION_SECRET: Session encryption secret
-
-### Development vs Production
-- Alag alag database URLs environments ke liye
-- Debug mode configuration
-- Static files serving configuration
-- Port configuration defaults ke saath
-
-## Deployment Kaise Kare
-
-### Production Setup
-- Environment variables properly configure karne hain
-- Database connection optimize karna hai
-- Static files CDN se serve karne hain
-- Error logging aur monitoring setup karna hai
-
-### Performance Optimization
-- Database indexing fast queries ke liye
-- Image optimization Cloudinary se
-- Static content ke liye caching strategies
-- Response compression middleware
-
-## Future Mein Kya Add Kar Sakte Hain
-
-### Planned Features
-- Advanced search filters (amenities, room types)
-- Booking system PG rooms ke liye
-- Payment integration advance booking ke liye
-- Chat system students aur owners ke beech
-- Mobile app development
-- Email notifications notices ke liye
-- Google Maps integration location display ke liye
-
-### Technical Improvements
-- API rate limiting
-- Advanced caching Redis ke saath
-- Microservices architecture
-- Real-time notifications WebSockets ke saath
-- Progressive Web App (PWA) features
-
-## Kaise Install Kare Aur Run Kare
-
-### Prerequisites (Pehle Ye Chahiye)
-- Node.js (version 14 ya usse upar)
-- MongoDB (local ya cloud instance)
-- Cloudinary account image storage ke liye
-
-### Installation Steps
-1. Repository clone karo
-2. Dependencies install karo: npm install
-3. .env file mein environment variables set karo
-4. MongoDB service start karo
-5. Application run karo: npm start
-6. Browser mein jao: http://localhost:8080/listings
-
-### Development Commands
-- npm start: Application start karta hai
-- npm run dev: Nodemon ke saath start karta hai development ke liye
-- npm test: Test suite run karta hai (agar implement kiya ho)
-- npm run build: Production build karta hai
-- npm run deploy: Production deployment karta hai (agar implement kiya ho)
+Kaise Chalaye?
+Repo clone karo
+npm install se dependencies install karo
+.env file mein MongoDB, Cloudinary, Mapbox, aur Session secrets daalo
+MongoDB service chalu karo (local ya cloud)
+npm start command se server run karo
+Browser mein jaake visit karo: http://localhost:8080/listings
