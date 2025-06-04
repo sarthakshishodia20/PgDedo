@@ -77,6 +77,7 @@ Arre yaar, ye PG Dedo ek simple sa web app hai jo maine banaya hai college proje
 - **middleware.js**: Security check karne ke functions
 
 ## Kaise Kaam Karta Hai Ye Sab (Detailed Functionality)
+![Navbar Preview](https://res.cloudinary.com/did71cuai/image/upload/v1749021170/pnavbar_wfjrg2.png)
 
 ### Login-Logout Ka System
 - Email aur password se register kar sakte hain
