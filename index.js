@@ -24,6 +24,7 @@ const { upload } = require('./cloudinary/index.js');
 // saare routes ko import kar rahe hain yahan
 const reviewRoutes = require('./routes/reviews.js');
 const authRoutes = require('./routes/auth.js');
+const noticeRoutes = require('./routes/notices.js');
 
 // environment variables se configuration le rahe hain
 const MONGO_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/findmypg";
@@ -91,6 +92,7 @@ app.use((req, res, next) => {
 
 // routes use kar rahe hain
 app.use('/listings/:id/reviews', reviewRoutes);
+app.use('/listings/:id/notices', noticeRoutes);
 app.use('/', authRoutes);
 
 main().then(() => {
