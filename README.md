@@ -1,72 +1,48 @@
-# PG DEDO - Bhai Log Ka PG Finder
+# PG DEDO – Pg Finder Type Website
 
-## Kya Hai Ye Project Yaar?
+**PG Dedo** ek simple web app hai jisme students apni PG dhund sakte hain, aur owners apne PG listings add/edit/manage kar sakte hain. UI bilkul Airbnb jaisa clean aur mobile-friendly hai.
 
-Arre yaar, ye PG Dedo ek simple sa web app hai jo maine banaya hai college project ke liye. Basically ye students aur PG owners ko connect karta hai. Jaise hum log PG dhundte rehte hain na, toh ye app us problem ko solve karta hai. Students easily PG dhund sakte hain aur owners apne PG ka promotion kar sakte hain.
+---
 
-## Kya Kya Features Hain Bhai?
+## Features
+- PG listings add/edit/delete (owners ke liye)  
+- Role-based login/logout (student/owner)  
+- Reviews & ratings system  
+- Notice board with auto-delete after 24 hrs  
+- Photo uploads via Cloudinary  
+- Search & filter by location, price, rating  
+- Interactive maps with Mapbox API  
 
-### Basic Cheezein Jo Kaam Karti Hain
-- PG listings add kar sakte hain, dekh sakte hain, edit kar sakte hain, delete kar sakte hain
-- Login-logout ka system hai proper
-- Reviews aur ratings de sakte hain PG ko
-- PG owners notice board use kar sakte hain students ke liye
-- Photos upload kar sakte hain Cloudinary se
-- Search kar sakte hain location wise ya price wise
-- Mobile mein bhi achha dikhta hai
+---
 
-### Kaun Kaun Use Kar Sakta Hai
-- **Students**: Hum jaise log jo PG dhundte rehte hain, reviews padh sakte hain
-- **PG Owners**: Uncle aunty log jo PG chalate hain, apna listing manage kar sakte hain
+## Screenshots
 
-## Technical Stuff (Thoda Boring Hai Par Important)
+Navbar  
+![Navbar](https://res.cloudinary.com/did71cuai/image/upload/v1749021170/pnavbar_wfjrg2.png)
 
-### Backend Mein Kya Use Kiya
-- **Node.js**: Server banane ke liye, JavaScript mein likha hai sab
-- **Express.js**: Routes aur middleware handle karne ke liye
-- **MongoDB**: Database hai, NoSQL type ka
-- **Mongoose**: MongoDB ko easily use karne ke liye
-- **Passport.js**: Login-logout ka jugaad
-- **Cloudinary**: Photos store karne ke liye cloud mein
-- **EJS**: HTML templates banane ke liye
+Homepage  
+![Homepage](https://res.cloudinary.com/did71cuai/image/upload/v1749021259/phome_zgvmfi.png)
 
-### Frontend Mein Kya Lagaya
-- **HTML5**: Basic structure
-- **CSS3**: Styling ke liye, Bootstrap bhi use kiya
-- **JavaScript**: Interactive cheezein karne ke liye
-- **Bootstrap 5**: Responsive design ke liye, mobile mein bhi achha lagta hai
-- **Font Awesome**: Icons ke liye
+Listing Info  
+![Listing](https://res.cloudinary.com/did71cuai/image/upload/v1749021269/pinfo_vrtbxa.png)
 
-### Database Mein Kya Kya Tables Hain
-- **User**: Students aur owners ki details
-- **Listing**: PG ki saari information
-- **Review**: Reviews aur ratings
-- **Notice**: PG owners ke notices
+Notice Board  
+![Notice](https://res.cloudinary.com/did71cuai/image/upload/v1749021277/pnotice_a7elcz.png)
 
-## Files Kahan Kya Hai (Folder Structure)
+Map View  
+![Map](https://res.cloudinary.com/did71cuai/image/upload/v1749021287/pmap_avu8is.png)
 
-### Main Files
-- **index.js**: Ye main file hai bhai, yahan se sab start hota hai
-- **package.json**: Dependencies ka list, npm install karne ke liye
-- **.env**: Secret cheezein store karta hai, password wagera
-- **README.md**: Ye file jo tum padh rahe ho
+Footer  
+![Footer](https://res.cloudinary.com/did71cuai/image/upload/v1749021307/pfoot_lojj6i.png)
 
-### Models Folder (Database Ke Schemas)
-- **models/user.js**: Users ki details store karta hai, login-logout ka system
-- **models/listing.js**: PG ki saari information, photos wagera
-- **models/review.js**: Reviews aur ratings ka data
-- **models/notice.js**: PG owners ke notices, 24 ghante baad delete ho jaate hain
+---
 
-### Routes Folder (URL Handling)
-- **routes/auth.js**: Register, login, logout ke routes
-- **routes/reviews.js**: Review add karne delete karne ke routes
-- **routes/notices.js**: Notice post karne ke routes
+## Tech Stack
+Node.js, Express.js, MongoDB, Mongoose, Passport.js, Cloudinary, EJS, Bootstrap 5, Mapbox API
 
-### Views Folder (HTML Templates)
-- **views/layouts/boilerplate.ejs**: Main template, header footer wagera
-- **views/listings/**: PG listings ke pages
-- **views/auth/**: Login register ke pages
-- **views/includes/**: Common components jo har page mein use hote hain
+---
+
+## Quick Start
 
 ### Utils Folder (Helper Functions)
 - **utils/wrapAsync.js**: Error handle karne ke liye
@@ -262,23 +238,18 @@ Arre yaar, ye PG Dedo ek simple sa web app hai jo maine banaya hai college proje
 - Real-time notifications WebSockets ke saath
 - Progressive Web App (PWA) features
 
+---
+
 ## Kaise Install Kare Aur Run Kare
 
-### Prerequisites (Pehle Ye Chahiye)
+### Prerequisites
 - Node.js (version 14 ya usse upar)
 - MongoDB (local ya cloud instance)
 - Cloudinary account image storage ke liye
 
 ### Installation Steps
-1. Repository clone karo
-2. Dependencies install karo: npm install
-3. .env file mein environment variables set karo
-4. MongoDB service start karo
-5. Application run karo: npm start
 
-### Development Commands
-- npm start: Application start karta hai
-- npm run dev: Nodemon ke saath start karta hai development ke liye
-- npm test: Test suite run karta hai (agar implement kiya ho)
-- npm run build: Production build karta hai
-- npm run deploy: Production deployment karta hai (agar implement kiya ho)
+```bash
+git clone https://github.com/sarthakshishodia20/PgDedo.git
+cd PgDedo
+npm install
