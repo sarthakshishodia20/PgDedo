@@ -241,7 +241,7 @@ Node.js, Express.js, MongoDB, Mongoose, Passport.js, Cloudinary, EJS, Bootstrap 
 ---
 
 ## Kaise Install Kare Aur Run Kare
-
+google analytics and clarity id= shishodiasarthak61@gmail.com
 ### Prerequisites
 - Node.js (version 14 ya usse upar)
 - MongoDB (local ya cloud instance)
