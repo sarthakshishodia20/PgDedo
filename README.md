@@ -275,7 +275,6 @@ Arre yaar, ye PG Dedo ek simple sa web app hai jo maine banaya hai college proje
 3. .env file mein environment variables set karo
 4. MongoDB service start karo
 5. Application run karo: npm start
-6. Browser mein jao: http://localhost:8080/listings
 
 ### Development Commands
 - npm start: Application start karta hai
